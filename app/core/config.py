@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     VERSION: str = Field(..., env="VERSION")
     DEBUG: bool = Field(..., env="DEBUG")
     SECRET_KEY: str = Field(..., env="SECRET_KEY")
+    ALLOWED_ORIGINS: list[str] = Field(..., env="ALLOWED_ORIGINS")
 
     class Config:
         env_file = ".env"
