@@ -1,6 +1,8 @@
 import uuid
 import subprocess
+import shutil
 from pathlib import Path
+from fastapi import HTTPException
 
 AUDIO_DIR = Path("data/extracted_audio")
 
@@ -11,6 +13,11 @@ def extract_audio(video_path: str) -> str:
 
     audio_file = f"{uuid.uuid4()}.wav"
     audio_path = AUDIO_DIR / audio_file
+    if shutil.which("ffmpeg") is None:
+        raise HTTPException(
+            status_code=500,
+            detail="FFmpeg is not installed or not in the system PATH."
+        )
 
     command = [
         "ffmpeg",
