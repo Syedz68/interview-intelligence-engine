@@ -12,6 +12,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.api.v1.routes.process import router as process_router
+from app.api.v2.routes.process import router as new_process_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -29,6 +30,7 @@ app.add_middleware(
 )
 
 app.include_router(process_router)
+app.include_router(new_process_router)
 
 def custom_openapi():
     if app.openapi_schema:

@@ -209,3 +209,4 @@ __marimo__/
 data/extracted_audio/*
 data/input_video/*
 data/outputs/*
+data/frames/*
