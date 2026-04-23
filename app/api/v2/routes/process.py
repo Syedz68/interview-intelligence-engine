@@ -131,3 +131,77 @@ async def analyze_interview(
         raise HTTPException(status_code=500, detail=f"Pipeline failed: {exc}") from exc
 
     return result
+
+# ── v3: Full AI-powered intelligence pipeline ─────────────────────────────────
+
+from app.schemas.response import FullIntelligenceResult
+
+
+@router.post(
+    "/analyze-interview-v3",
+    response_model=FullIntelligenceResult,
+    summary="Full Interview Intelligence: diarization + fluency + Q&A + behavioral report",
+    description=(
+        "Runs the complete v3 pipeline:\n"
+        "1. Video/audio ingest\n"
+        "2. Frame analysis (gaze, motion, emotion)\n"
+        "3. Whisper STT\n"
+        "4. pyannote speaker diarization (separates interviewer/candidate)\n"
+        "5. Claude AI: English fluency & accuracy report\n"
+        "6. Claude AI: Answer relevance & correctness scoring\n"
+        "7. Behavioral score aggregation (CV pipeline)\n"
+        "8. Claude AI: Narrative behavioral report with hiring recommendation\n\n"
+        "Requires ANTHROPIC_API_KEY in environment for AI stages.\n"
+        "Requires HF_TOKEN in environment for pyannote diarization."
+    ),
+)
+async def analyze_interview_v3(
+    video_url: str | None = Form(None),
+    file: UploadFile = File(None),
+    fps: int = Form(2, ge=1, le=5, description="Frame extraction rate"),
+    skip_emotion: bool = Form(False, description="Skip DeepFace emotion detection"),
+    skip_diarization: bool = Form(False, description="Skip pyannote diarization"),
+    job_role: str | None = Form(None, description="Target job role for context-aware AI scoring"),
+    candidate_name: str | None = Form(None, description="Candidate name for personalised report"),
+    num_speakers: int | None = Form(None, description="Exact speaker count hint for pyannote"),
+):
+    """
+    Full v3 pipeline with diarization + 3 AI analysis services.
+    """
+    if not video_url and not file:
+        raise HTTPException(status_code=400, detail="Provide either video_url or file.")
+
+    # ── Ingest ────────────────────────────────────────────────────────────────
+    try:
+        video_path = (
+            download_video_from_url(video_url) if video_url else save_uploaded_video(file)
+        )
+    except Exception as exc:
+        logger.exception("Video ingest failed")
+        raise HTTPException(status_code=422, detail=f"Video ingest failed: {exc}") from exc
+
+    # ── Audio extraction ──────────────────────────────────────────────────────
+    try:
+        audio_path = extract_audio(video_path)
+    except Exception as exc:
+        logger.exception("Audio extraction failed")
+        raise HTTPException(status_code=500, detail=f"Audio extraction failed: {exc}") from exc
+
+    # ── Full pipeline ─────────────────────────────────────────────────────────
+    try:
+        from app.pipeline.intelligence_pipeline import run_full_pipeline
+        result = run_full_pipeline(
+            video_path=video_path,
+            audio_path=audio_path,
+            fps=fps,
+            skip_emotion=skip_emotion,
+            skip_diarization=skip_diarization,
+            job_role=job_role,
+            candidate_name=candidate_name,
+            num_speakers=num_speakers,
+        )
+    except Exception as exc:
+        logger.exception("v3 pipeline execution failed")
+        raise HTTPException(status_code=500, detail=f"Pipeline failed: {exc}") from exc
+
+    return result
