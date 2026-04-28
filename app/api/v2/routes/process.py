@@ -164,6 +164,7 @@ async def analyze_interview_v3(
     job_role: str | None = Form(None, description="Target job role for context-aware AI scoring"),
     candidate_name: str | None = Form(None, description="Candidate name for personalised report"),
     num_speakers: int | None = Form(None, description="Exact speaker count hint for pyannote"),
+    max_speakers: int = Form(5, ge=2, le=5, description="Max speakers for auto-detection (2–5). Default 5: 1 candidate + up to 4 interviewers"),
 ):
     """
     Full v3 pipeline with diarization + 3 AI analysis services.
@@ -199,6 +200,7 @@ async def analyze_interview_v3(
             job_role=job_role,
             candidate_name=candidate_name,
             num_speakers=num_speakers,
+            max_speakers=max_speakers,
         )
     except Exception as exc:
         logger.exception("v3 pipeline execution failed")

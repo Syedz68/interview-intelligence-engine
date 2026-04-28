@@ -43,6 +43,7 @@ def run_full_pipeline(
     job_role: str | None = None,
     candidate_name: str | None = None,
     num_speakers: int | None = None,
+    max_speakers: int = 5,
 ) -> dict[str, Any]:
     """
     Run the complete Interview Intelligence pipeline.
@@ -57,6 +58,7 @@ def run_full_pipeline(
     job_role          : e.g. "Senior Backend Engineer" – improves AI assessments
     candidate_name    : for personalised report
     num_speakers      : exact speaker count hint for pyannote (None = auto)
+    max_speakers      : upper bound for auto-detection (default 5: 1 candidate + 4 interviewers)
 
     Returns
     -------
@@ -127,6 +129,7 @@ def run_full_pipeline(
             audio_path=audio_path,
             whisper_segments=stt_result["segments"],
             num_speakers=num_speakers,
+            max_speakers=max_speakers,
         )
         timings["diarization"] = round(time.perf_counter() - t0, 2)
         logger.info(
@@ -237,6 +240,7 @@ def run_full_pipeline(
         "diarization": {
             "available": diarization_result.get("diarization_available", False),
             "speaker_map": diarization_result.get("speaker_map", {}),
+            "role_confidence": diarization_result.get("role_confidence", "N/A"),
             "turns": diarization_result.get("turns", []),
         },
 

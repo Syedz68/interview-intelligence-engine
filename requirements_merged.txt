@@ -1,0 +1,224 @@
+# ============================================================
+# Merged Requirements — Python 3.12 Compatible
+# Generated from requirements.txt + requirements_1.txt
+#
+# CONFLICT RESOLUTIONS (read before installing):
+# -----------------------------------------------
+# 1. numpy:
+#    req1=1.26.4  vs  req2=2.4.4  →  PINNED TO 1.26.4
+#    Reason: pyannote.audio==3.3.2, numba==0.65.1, and
+#    tensorflow==2.21.0 all break on numpy>=2.
+#    tensorflow 2.21 officially supports numpy 1.23–1.26.
+#
+# 2. torch:
+#    req1=2.2.2+cu121  vs  req2=2.11.0  →  PINNED TO 2.2.2+cu121
+#    Reason: pyannote.audio==3.3.2 is tested against torch ~2.2.
+#    torch 2.11 is very new; pyannote's internal dependencies
+#    (speechbrain, asteroid-filterbanks) have not been validated
+#    against it. torchaudio must always match torch version exactly.
+#
+# 3. numba:
+#    req1=0.65.1  vs  req2=0.65.0  →  PINNED TO 0.65.1 (higher patch)
+#
+# INSTALL ORDER (important — do NOT just pip install -r directly):
+# -----------------------------------------------
+#   Step 1:  pip install numpy==1.26.4
+#   Step 2:  pip install torch==2.2.2+cu121 torchaudio==2.2.2+cu121 --index-url https://download.pytorch.org/whl/cu121
+#   Step 3:  pip install -r requirements_merged.txt --no-deps (for the rest)
+#   OR simply:
+#   Step 1:  pip install numpy==1.26.4
+#   Step 2:  pip install torch==2.2.2+cu121 torchaudio==2.2.2+cu121 --index-url https://download.pytorch.org/whl/cu121
+#   Step 3:  pip install -r requirements_merged.txt
+#
+# NOTE: torch and torchaudio are listed below WITHOUT index URL.
+# Install them separately first using the --index-url command above.
+# ============================================================
+
+# ── Core numeric / ML stack ─────────────────────────────────
+numpy==1.26.4
+scipy==1.17.1
+scikit-learn==1.8.0
+numba==0.65.1
+llvmlite==0.47.0
+pandas==3.0.2
+matplotlib==3.10.9
+
+# ── PyTorch (install separately with --index-url, see above) ─
+# torch==2.2.2+cu121
+# torchaudio==2.2.2+cu121
+torchmetrics==1.9.0
+torch-audiomentations==0.12.0
+torch_pitch_shift==1.2.5
+pytorch-metric-learning==2.9.0
+einops==0.8.2
+
+# ── Lightning ────────────────────────────────────────────────
+lightning==2.6.1
+lightning-utilities==0.15.3
+pytorch-lightning==2.6.1
+
+# ── Speech / Audio ───────────────────────────────────────────
+openai-whisper==20250625
+pyannote.audio==3.3.2
+pyannote.core==5.0.0
+pyannote.database==5.1.3
+pyannote.metrics==3.2.1
+pyannote.pipeline==3.0.1
+speechbrain==1.1.0
+asteroid-filterbanks==0.4.0
+julius==0.2.7
+pydub==0.25.1
+soundfile==0.13.1
+sounddevice==0.5.5
+
+# ── Hugging Face ─────────────────────────────────────────────
+# PINNED: pyannote.audio 3.3.2 uses use_auth_token arg which was
+# removed in huggingface_hub>=0.24. Do NOT upgrade this.
+huggingface-hub==0.23.4
+tiktoken==0.12.0
+sentencepiece==0.2.1
+
+# ── TensorFlow / DeepFace / Vision ───────────────────────────
+tensorflow==2.21.0
+tf_keras==2.21.0
+keras==3.14.0
+deepface==0.0.99
+retina-face==0.0.17
+mtcnn==1.0.0
+mediapipe==0.10.33
+opencv-python==4.13.0.92
+opencv-contrib-python==4.13.0.92
+
+# ── FastAPI / Web ─────────────────────────────────────────────
+fastapi==0.136.0
+uvicorn==0.44.0
+starlette==1.0.0
+pydantic==2.13.2
+pydantic-settings==2.13.1
+pydantic_core==2.46.2
+pydantic-settings==2.13.1
+python-multipart==0.0.26
+anyio==4.13.0
+httpx==0.28.1
+httpcore==1.0.9
+h11==0.16.0
+
+# ── Flask (kept from req2 — remove if not needed) ────────────
+Flask==3.1.3
+flask-cors==6.0.2
+Werkzeug==3.1.3
+itsdangerous==2.2.0
+
+# ── Database ─────────────────────────────────────────────────
+SQLAlchemy==2.0.49
+alembic==1.18.4
+greenlet==3.4.0
+
+# ── Config / Serialization ───────────────────────────────────
+omegaconf==2.3.0
+HyperPyYAML==1.2.3
+antlr4-python3-runtime==4.9.3
+ruamel.yaml==0.18.17
+ruamel.yaml.clib==0.2.15
+PyYAML==6.0.3
+protobuf==7.34.1
+
+# ── Utilities ────────────────────────────────────────────────
+tqdm==4.67.3
+click==8.3.3
+colorama==0.4.6
+colorlog==6.10.1
+rich==15.0.0
+Pygments==2.20.0
+typer==0.25.0
+shellingham==1.5.4
+tabulate==0.10.0
+packaging==26.2
+filelock==3.25.2
+fsspec==2026.2.0
+more-itertools==11.0.2
+sortedcontainers==2.4.0
+semver==3.0.4
+six==1.17.0
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
+typing_extensions==4.15.0
+typing-inspection==0.4.2
+annotated-doc==0.0.4
+
+# ── Async / HTTP ─────────────────────────────────────────────
+aiohttp==3.13.5
+aiosignal==1.4.0
+aiohappyeyeballs==2.6.1
+frozenlist==1.8.0
+multidict==6.7.1
+yarl==1.23.0
+propcache==0.4.1
+
+# ── Optimization / Tuning ────────────────────────────────────
+optuna==4.8.0
+
+# ── Visualization ────────────────────────────────────────────
+contourpy==1.3.1
+cycler==0.12.1
+fonttools==4.62.1
+kiwisolver==1.5.0
+pyparsing==3.3.2
+pillow==12.2.0
+
+# ── Remaining deps ───────────────────────────────────────────
+certifi==2026.4.22
+charset-normalizer==3.4.7
+idna==3.13
+urllib3==2.6.3
+requests==2.33.1
+regex==2026.4.4
+networkx==3.6.1
+sympy==1.14.0
+mpmath==1.3.0
+joblib==1.5.3
+threadpoolctl==3.6.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+cffi==2.0.0
+pycparser==3.0
+docopt==0.6.2
+tzdata==2026.2
+primePy==1.3
+markdown-it-py==4.0.0
+mdurl==0.1.2
+
+# ── TensorFlow internals (pulled by tf 2.21) ─────────────────
+absl-py==2.4.0
+astunparse==1.6.3
+flatbuffers==25.12.19
+gast==0.7.0
+google-pasta==0.2.0
+grpcio==1.80.0
+h5py==3.14.0
+ml_dtypes==0.5.4
+opt_einsum==3.4.0
+optree==0.19.0
+tensorboardX==2.6.5
+termcolor==3.3.0
+wrapt==2.1.2
+libclang==18.1.1
+namex==0.1.0
+
+# ── Misc from req2 ───────────────────────────────────────────
+beautifulsoup4==4.14.3
+soupsieve==2.8.3
+blinker==1.9.0
+fire==0.7.1
+gdown==6.0.0
+future==1.0.0
+PySocks==1.7.1
+lz4==4.4.5
+lightdsa==0.0.3
+lightecc==0.0.6
+lightphe==0.0.24
+gunicorn==25.3.0
+setuptools==81.0.0
+wheel==0.46.0
+hf-xet==1.4.3
+ffmpeg-python==0.2.0
