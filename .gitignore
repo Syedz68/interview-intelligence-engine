@@ -138,6 +138,8 @@ celerybeat.pid
 .env
 .envrc
 .venv
+.venv_audio
+.venv_web
 env/
 venv/
 ENV/
@@ -210,3 +212,5 @@ data/extracted_audio/*
 data/input_video/*
 data/outputs/*
 data/frames/*
+service_audio/data/*
+service_web/data/*

@@ -1,0 +1,48 @@
+# ============================================================
+# requirements_env_b.txt  –  service_web  (.venv_web)
+# ============================================================
+# numpy >= 2  is fine here; mediapipe 0.10+ and OpenCV 4.13
+# are compatible with numpy 2.x.
+#
+# INSTALL ORDER:
+# ---------------------------------------------------------------
+#   pip install -r requirements_env_b.txt
+# ============================================================
+
+# Core numeric stack (numpy≥2)
+numpy>=2.0.0
+scipy>=1.12.0
+pandas>=2.0.0
+
+# Computer Vision
+opencv-python==4.13.0.92
+opencv-contrib-python==4.13.0.92
+mediapipe==0.10.33
+
+# Emotion detection
+deepface==0.0.99
+retina-face==0.0.17
+mtcnn==1.0.0
+tf-keras==2.21.0
+
+# TensorFlow (CPU build for DeepFace; swap for GPU build if needed)
+tensorflow==2.21.0
+
+# FastAPI / Web
+fastapi==0.136.0
+uvicorn==0.44.0
+starlette==1.0.0
+pydantic==2.13.2
+pydantic-settings==2.13.1
+python-multipart==0.0.26
+python-dotenv==1.2.2
+requests==2.33.1
+httpx==0.28.1
+SQLAlchemy==2.0.49
+
+# Image / data
+pillow>=10.0.0
+
+# Utilities
+tqdm==4.67.3
+ffmpeg-python==0.2.0
